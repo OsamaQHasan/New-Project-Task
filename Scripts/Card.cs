@@ -27,7 +27,7 @@ public class Card : MonoBehaviour
     }
     public void SelectCard()
     {
-        if(!cardShown)
+        if(!cardShown)//if the card is not shown (flipped face down) select it in the game controller
             GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().SelectCard(this);
         
     }
@@ -53,6 +53,7 @@ public class Card : MonoBehaviour
     IEnumerator MatchCard(float wait)
     {
         yield return new WaitForSeconds(wait);
+        //deactivate all card components to hide it
         cardFront.SetActive(false);
         cardBack.SetActive(false);
         cardValue.SetActive(false);

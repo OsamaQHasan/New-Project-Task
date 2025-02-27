@@ -22,7 +22,7 @@ public class BoardGenerator : MonoBehaviour
     }
 
     public void SetUpBoard(int x, int y) {
-        foreach(Transform cardGO in grid.transform)
+        foreach(Transform cardGO in grid.transform)//destroy all cards
         {
             Destroy(cardGO.gameObject);
         }
