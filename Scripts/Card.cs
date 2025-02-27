@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -13,6 +14,10 @@ public class Card : MonoBehaviour
         ShowHideCard(true);//card starts as flipped face up
         yield return new WaitForSeconds(startWait);
         StartCoroutine(FlipCard());
+    }
+    public void UpdateCardValue(string value)
+    {
+        cardValue.GetComponent<TMP_Text>().text = value;
     }
     void ShowHideCard(bool show = true)
     {

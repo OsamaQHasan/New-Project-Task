@@ -154,10 +154,63 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 6102467790545109367, guid: 21df0205f1999fe4db74c266074ba8da, type: 3}
   grid: {fileID: 1480931690}
-  x: 20
-  y: 20
+  x: 6
+  y: 6
   scaleDifference: 0.8
   normalY: 6
+  cardPossibilities:
+  - A
+  - B
+  - C
+  - D
+  - E
+  - F
+  - G
+  - H
+  - I
+  - J
+  - K
+  - L
+  - M
+  - N
+  - O
+  - P
+  - Q
+  - R
+  - S
+  - T
+  - U
+  - V
+  - W
+  - X
+  - Y
+  - Z
+  - a
+  - b
+  - c
+  - d
+  - e
+  - f
+  - g
+  - h
+  - i
+  - j
+  - k
+  - l
+  - m
+  - n
+  - o
+  - p
+  - q
+  - r
+  - s
+  - t
+  - u
+  - v
+  - w
+  - x
+  - y
+  - z
   scaleRatio: 0
 --- !u!4 &479572581
 Transform:
