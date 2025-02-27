@@ -154,8 +154,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 6102467790545109367, guid: 21df0205f1999fe4db74c266074ba8da, type: 3}
   grid: {fileID: 1480931690}
-  x: 7
-  y: 7
+  x: 20
+  y: 20
+  scaleDifference: 0.8
+  normalY: 6
+  scaleRatio: 0
 --- !u!4 &479572581
 Transform:
   m_ObjectHideFlags: 0
