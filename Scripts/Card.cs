@@ -21,6 +21,10 @@ public class Card : MonoBehaviour
     {
 
     }
+    public void CardMatched(float wait = 0)
+    {
+        StartCoroutine(MatchCard(wait));
+    }
     public void SelectCard()
     {
         GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().SelectCard(this);
@@ -45,6 +49,13 @@ public class Card : MonoBehaviour
     }
     // Update is called once per frame
 
+    IEnumerator MatchCard(float wait)
+    {
+        yield return new WaitForSeconds(wait);
+        cardFront.SetActive(false);
+        cardBack.SetActive(false);
+        cardValue.SetActive(false);
+    }
     IEnumerator FlipCard(float wait)
     {
         while(isFlipping)

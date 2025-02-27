@@ -30,8 +30,8 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                selectedCard1.gameObject.SetActive(false);
-                selectedCard2.gameObject.SetActive(false);
+                selectedCard1.CardMatched(showCardFor);
+                selectedCard2.CardMatched(showCardFor);
             }
         }
     }
