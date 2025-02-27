@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -9,18 +10,47 @@ public class GameController : MonoBehaviour
     private BoardGenerator boardGenerator;
     [SerializeField] int x, y;
     [SerializeField] float showCardFor;
+    [SerializeField] GameObject pausePanel;
     int combo = 0,score = 0, level = 1;
     public int cards = 0;
     [SerializeField] TMP_Text scoreText, comboText, levelText;
     [SerializeField] int scorePerMatch;
+    [SerializeField] Button continueButton;
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerPrefs.HasKey("level") && PlayerPrefs.GetInt("level", 1) > 1)
+        {
+            UpdateScore(PlayerPrefs.GetInt("score", 0));
+            UpdateCombo(PlayerPrefs.GetInt("combo", 0));
+            UpdateLevel(PlayerPrefs.GetInt("level", 1));
+        }
+        else
+        {
+            continueButton.interactable = false;
+        }
         selectedCards = new Queue<Card>();
         boardGenerator = GetComponent<BoardGenerator>();
-        StartCoroutine(SetUpBoardCoroutine());
     }
 
+    public void StartGame()
+    {
+        combo = 0;
+        score = 0;
+        level = 1;
+        SaveGame();
+        pausePanel.SetActive(false);
+        StartCoroutine(SetUpBoardCoroutine());
+    }
+    public void ContinueGame()
+    {
+        pausePanel.SetActive(false);
+        StartCoroutine(SetUpBoardCoroutine());
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -49,6 +79,12 @@ public class GameController : MonoBehaviour
 
             }
         }
+    }
+    void SaveGame()
+    {
+        PlayerPrefs.SetInt("level", level);
+        PlayerPrefs.SetInt("score", score);
+        PlayerPrefs.SetInt("combo", combo);
     }
     IEnumerator SetUpBoardCoroutine(float wait = 0)
     {
@@ -79,8 +115,9 @@ public class GameController : MonoBehaviour
 
     }
     private void UpdateLevel(int level)
-    {
+    {   
         this.level = level;
+        SaveGame();
         levelText.text = "LEVEL: " + level;
 
     }
