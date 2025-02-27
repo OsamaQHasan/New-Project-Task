@@ -8,20 +8,21 @@ public class GameController : MonoBehaviour
 {
     private Queue<Card> selectedCards;
     private BoardGenerator boardGenerator;
-    [SerializeField] AudioClip gameMusic, menuMusic, cardFlip, cardMatch, failMatch, gameOver;
+    [SerializeField] AudioClip gameMusic, menuMusic, cardFlip, successMatch, failMatch, gameOver, levelUp;
     [SerializeField] AudioSource musicAudioSource, SFXAudioSource;
-    [SerializeField] int x, y;
+    [SerializeField] int x, y, finalLevel;
     [SerializeField] float showCardFor;
     [SerializeField] GameObject pausePanel;
     int combo = 0,score = 0, level = 1;
     public int cards = 0;
-    [SerializeField] TMP_Text scoreText, comboText, levelText;
+    [SerializeField] TMP_Text scoreText, comboText, levelText, winText;
     [SerializeField] int scorePerMatch;
     [SerializeField] Button continueButton;
     bool gameStarted;
     // Start is called before the first frame update
     void Start()
     {
+        winText.gameObject.SetActive(false);
         if (PlayerPrefs.HasKey("level") && PlayerPrefs.GetInt("level", 1) > 1)
         {
             UpdateScore(PlayerPrefs.GetInt("score", 0));
@@ -42,9 +43,13 @@ public class GameController : MonoBehaviour
         musicAudioSource.Play();
 
     }
-
+    void PlaySFX(AudioClip clip)
+    {
+        SFXAudioSource.PlayOneShot(clip);
+    }
     public void StartGame()
     {
+        winText.gameObject.SetActive(false);
         continueButton.interactable = true;
         Time.timeScale = 1;
         gameStarted = true;
@@ -92,6 +97,7 @@ public class GameController : MonoBehaviour
             {
                 selectedCard1.StartFlipCard(showCardFor);
                 selectedCard2.StartFlipCard(showCardFor);
+                PlaySFX(failMatch);
                 UpdateCombo(0);
             }
             else
@@ -103,9 +109,21 @@ public class GameController : MonoBehaviour
                 cards -= 2;
                 if(cards <= 0)
                 {
+                    if (level >= finalLevel)
+                    {
+                        winText.text = "CONGRATULATIONS! YOU BEAT THE GAME YOUR SCORE IS " + score + "<br>CAN YOU GET MORE?";
+                        PlaySFX(gameOver);
+                        winText.gameObject.SetActive(true);
+                        continueButton.interactable = false;
+                        pausePanel.SetActive(true);
+                        return;
+                    }
+                    PlaySFX(levelUp);
                     UpdateLevel(level + 1);
                     StartCoroutine(SetUpBoardCoroutine(showCardFor));
+                    return;
                 }
+                PlaySFX(successMatch);
 
             }
         }
@@ -145,7 +163,8 @@ public class GameController : MonoBehaviour
 
     }
     private void UpdateLevel(int level)
-    {   
+    {
+        
         this.level = level;
         SaveGame();
         levelText.text = "LEVEL: " + level;
@@ -162,6 +181,7 @@ public class GameController : MonoBehaviour
         {
             selectedCards.Enqueue(card);
             card.StartFlipCard();
+            PlaySFX(cardFlip);
         }
             
     }
