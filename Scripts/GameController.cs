@@ -8,6 +8,8 @@ public class GameController : MonoBehaviour
 {
     private Queue<Card> selectedCards;
     private BoardGenerator boardGenerator;
+    [SerializeField] AudioClip gameMusic, menuMusic, cardFlip, cardMatch, failMatch, gameOver;
+    [SerializeField] AudioSource musicAudioSource, SFXAudioSource;
     [SerializeField] int x, y;
     [SerializeField] float showCardFor;
     [SerializeField] GameObject pausePanel;
@@ -16,6 +18,7 @@ public class GameController : MonoBehaviour
     [SerializeField] TMP_Text scoreText, comboText, levelText;
     [SerializeField] int scorePerMatch;
     [SerializeField] Button continueButton;
+    bool gameStarted;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,24 +35,51 @@ public class GameController : MonoBehaviour
         selectedCards = new Queue<Card>();
         boardGenerator = GetComponent<BoardGenerator>();
     }
+    void ChangeMusic(AudioClip clip)
+    {
+        musicAudioSource.loop = true;
+        musicAudioSource.clip = clip;
+        musicAudioSource.Play();
+
+    }
 
     public void StartGame()
     {
-        combo = 0;
-        score = 0;
-        level = 1;
+        continueButton.interactable = true;
+        Time.timeScale = 1;
+        gameStarted = true;
+        UpdateScore(0);
+        UpdateCombo(0);
+        UpdateLevel(1);
         SaveGame();
+       
         pausePanel.SetActive(false);
         StartCoroutine(SetUpBoardCoroutine());
+        ChangeMusic(gameMusic);
+        
     }
     public void ContinueGame()
     {
+        continueButton.interactable = true;
+        Time.timeScale = 1;
         pausePanel.SetActive(false);
-        StartCoroutine(SetUpBoardCoroutine());
+        if (!gameStarted)
+        {
+            gameStarted = true;
+            StartCoroutine(SetUpBoardCoroutine());
+        }
+        ChangeMusic(gameMusic);
+
     }
     public void ExitGame()
     {
         Application.Quit();
+    }
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        pausePanel.SetActive(true);
+        ChangeMusic(menuMusic);
     }
     // Update is called once per frame
     void Update()
