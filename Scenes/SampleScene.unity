@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 479572581}
   - component: {fileID: 479572580}
+  - component: {fileID: 479572582}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -154,8 +155,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardPrefab: {fileID: 6102467790545109367, guid: 21df0205f1999fe4db74c266074ba8da, type: 3}
   grid: {fileID: 1480931690}
-  x: 6
-  y: 6
   scaleDifference: 0.8
   normalY: 6
   cardPossibilities:
@@ -211,7 +210,6 @@ MonoBehaviour:
   - x
   - y
   - z
-  scaleRatio: 0
 --- !u!4 &479572581
 Transform:
   m_ObjectHideFlags: 0
@@ -227,6 +225,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &479572582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479572579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f505bbf914f236e4d893751b2c8ad742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x: 4
+  y: 4
+  showCardFor: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
