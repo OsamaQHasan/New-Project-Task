@@ -22,6 +22,10 @@ public class BoardGenerator : MonoBehaviour
     }
 
     public void SetUpBoard(int x, int y) {
+        foreach(Transform cardGO in grid.transform)
+        {
+            Destroy(cardGO.gameObject);
+        }
         int cardCount = x * y; //get the number of cards
         if(cardCount > cardPossibilities.Length * 2 || cardCount < 4 || cardCount % 2 != 0)//don't allow more cards than possible card values * 2 or less than 4 or non-even card counts
         {
@@ -32,7 +36,7 @@ public class BoardGenerator : MonoBehaviour
         RectTransform rect = grid.GetComponent<RectTransform>();
         rect.localPosition = new Vector3(rect.localPosition.x, (y - 1) * 50 * scaleRatio);//place the grid in the center of the screen
         rect.sizeDelta = new Vector2(x * 100, 100);//change the grid size to match the ration
-        rect.localScale = new Vector2(rect.localScale.x * scaleRatio, rect.localScale.y * scaleRatio);//scale up or down the grid to display all the cards
+        rect.localScale = new Vector2(scaleRatio, scaleRatio);//scale up or down the grid to display all the cards
         SupportScripts.ShuffleArray(cardPossibilities);
         string[] neededArray = new string[cardCount];
         for(int i = 0; i < neededArray.Length; i++)

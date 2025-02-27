@@ -27,7 +27,8 @@ public class Card : MonoBehaviour
     }
     public void SelectCard()
     {
-        GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().SelectCard(this);
+        if(!cardShown)
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().SelectCard(this);
         
     }
     public void StartFlipCard(float wait = 0)

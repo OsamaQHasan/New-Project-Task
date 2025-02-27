@@ -9,7 +9,8 @@ public class GameController : MonoBehaviour
     private BoardGenerator boardGenerator;
     [SerializeField] int x, y;
     [SerializeField] float showCardFor;
-    int combo = 0,score = 0;
+    int combo = 0,score = 0, level = 1;
+    public int cards = 0;
     [SerializeField] TMP_Text scoreText, comboText, levelText;
     [SerializeField] int scorePerMatch;
     // Start is called before the first frame update
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour
     {
         selectedCards = new Queue<Card>();
         boardGenerator = GetComponent<BoardGenerator>();
-        boardGenerator.SetUpBoard(x, y);
+        StartCoroutine(SetUpBoardCoroutine());
     }
 
     // Update is called once per frame
@@ -39,14 +40,48 @@ public class GameController : MonoBehaviour
                 selectedCard2.CardMatched(showCardFor);
                 UpdateScore(score + (combo == 0 ? 1 : combo) * scorePerMatch);
                 UpdateCombo(combo + 1);
-                
+                cards -= 2;
+                if(cards <= 0)
+                {
+                    UpdateLevel(level + 1);
+                    StartCoroutine(SetUpBoardCoroutine(showCardFor));
+                }
+
             }
         }
+    }
+    IEnumerator SetUpBoardCoroutine(float wait = 0)
+    {
+        yield return new WaitForSeconds(wait);
+        int x = this.x;
+        int y = this.y;
+        for (int i = 0; i < level - 1; i++)
+        {
+            do
+            {
+                if(x <= y)
+                {
+                    x++;
+                }
+                else
+                {
+                    y++;
+                }
+            } while ((x * y) % 2 != 0);
+        }
+        cards = x * y;
+        boardGenerator.SetUpBoard(x, y);
     }
     private void UpdateScore(int score)
     {
         this.score = score;
         scoreText.text = "SCORE: " + score;
+
+    }
+    private void UpdateLevel(int level)
+    {
+        this.level = level;
+        levelText.text = "LEVEL: " + level;
 
     }
     private void UpdateCombo(int combo)
